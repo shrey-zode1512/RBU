@@ -1,0 +1,254 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Electronics Sales Data Analysis</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <header>
+    <div class="wrap">
+      <span class="logo">Electronics Sales Analysis</span>
+      <nav>
+        <a href="#dataset">Dataset</a>
+        <a href="#workflow">Workflow</a>
+        <a href="#findings">Findings</a>
+        <a href="#team">Team</a>
+      </nav>
+    </div>
+  </header>
+
+  <main>
+    <div class="hero">
+      <div class="wrap">
+        <h1>Electronics Product Sales Data Analysis</h1>
+        <p>A data science project that cleans a US electronics sales dataset, analyses it with Pandas and shows the results with Matplotlib and Seaborn charts.</p>
+        <a class="btn" id="cta" href="https://www.kaggle.com/code/jirouuu/purchase-history-electronics/input" target="_blank" rel="noopener">View dataset on Kaggle</a>
+        <a class="btn light" href="#workflow">See the workflow</a>
+      </div>
+    </div>
+
+    <section id="dataset">
+      <div class="wrap">
+        <h2>The dataset</h2>
+        <p class="intro">Each row is one product in one order, from an electronics store in 9 US cities (April to September 2019).</p>
+
+        <div class="facts">
+          <div class="fact"><b>30,206</b><span>rows after cleaning</span></div>
+          <div class="fact"><b>6</b><span>columns</span></div>
+          <div class="fact"><b>19</b><span>products</span></div>
+          <div class="fact"><b>9</b><span>cities</span></div>
+        </div>
+
+        <div class="table-scroll">
+          <table>
+            <thead><tr><th>Column</th><th>Meaning</th></tr></thead>
+            <tbody>
+              <tr><td>Order ID</td><td>Number of the order (one order can have several products)</td></tr>
+              <tr><td>Product</td><td>Name of the product sold</td></tr>
+              <tr><td>Quantity Ordered</td><td>Units sold</td></tr>
+              <tr><td>Price Each</td><td>Price of one unit in dollars</td></tr>
+              <tr><td>Order Date</td><td>Date and time of the order</td></tr>
+              <tr><td>Purchase Address</td><td>Street, city, state and zip of the buyer</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+
+    <section id="workflow">
+      <div class="wrap">
+        <h2>Project workflow</h2>
+        <p class="intro">Click a step to see what we did and the code we used.</p>
+
+        <div class="tabs" id="tabs"></div>
+
+        <div class="panel">
+          <h3 id="step-title"></h3>
+          <p id="step-text"></p>
+          <pre><code id="step-code"></code></pre>
+          <div class="step-nav">
+            <button id="prev">Previous</button>
+            <button id="next">Next</button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="findings">
+      <div class="wrap">
+        <h2>Top 5 products</h2>
+        <p class="intro">Choose what to rank by.</p>
+
+        <div class="toggle">
+          <button class="tab active" data-mode="revenue">By revenue</button>
+          <button class="tab" data-mode="units">By units sold</button>
+        </div>
+
+        <div id="bars"></div>
+        <p class="note">Numbers are from the cleaned data. Laptops and phones earn the most money, while batteries and cables sell the most units.</p>
+      </div>
+    </section>
+
+    <section id="team">
+      <div class="wrap">
+        <h2>Work division</h2>
+        <p class="intro">The project was split into three parts.</p>
+        <div class="cards">
+          <div class="card"><h3>Loading and cleaning</h3><p>Opens the file, checks missing values and duplicates, and fixes data types and dates.</p></div>
+          <div class="card"><h3>Pandas operations</h3><p>Creates the Revenue column, filters, groups, ranks products and builds summary tables.</p></div>
+          <div class="card"><h3>Matplotlib and Seaborn</h3><p>Draws the charts and writes what each chart shows.</p></div>
+        </div>
+
+        <h2 style="margin-top:32px">Tools used</h2>
+        <ul class="tags">
+          <li>Python</li><li>Pandas</li><li>NumPy</li><li>SciPy</li><li>Matplotlib</li><li>Seaborn</li><li>Google Colab</li>
+        </ul>
+      </div>
+    </section>
+
+    <section class="final">
+      <div class="wrap">
+        <h2>Want to try it yourself?</h2>
+        <p>Download the dataset from Kaggle and run the same steps in a notebook.</p>
+        <a class="btn" id="cta2" href="https://www.kaggle.com/code/jirouuu/purchase-history-electronics/input" target="_blank" rel="noopener">View dataset on Kaggle</a>
+      </div>
+    </section>
+  </main>
+
+  <footer>Built with HTML, CSS and JavaScript</footer>
+
+  <script>
+    // ---------- workflow steps ----------
+    var steps = [
+      {
+        name: "1. Load",
+        title: "Load and inspect the data",
+        text: "The CSV file is read into a Pandas DataFrame. We look at the first rows, the data types, the summary statistics and the shape.",
+        code: "df = pd.read_csv('Updated_sales.csv')\n\ndf.head()\ndf.info()\ndf.describe()\ndf.shape"
+      },
+      {
+        name: "2. Clean",
+        title: "Clean the data",
+        text: "Missing values and duplicate rows are handled, the order date is converted to a real date type, and the cleaned file is saved.",
+        code: "df.isnull().sum()\ndf = df.fillna(0)\ndf = df.drop_duplicates()\n\ndf['Order Date'] = pd.to_datetime(df['Order Date'], format='mixed', errors='coerce')\ndf.to_csv('clean_sales.csv', index=False)"
+      },
+      {
+        name: "3. Analyse",
+        title: "Analyse with Pandas",
+        text: "A Revenue column is made from price and quantity. Then we filter, group revenue by month and rank the top 10 products. Summary tables are saved as CSV and Excel files.",
+        code: "df['Revenue'] = df['Price Each'] * df['Quantity Ordered']\n\nhigh_sales = df[df['Revenue'] > df['Revenue'].median()]\n\nrev_by_month = df.groupby('Year_Month')['Revenue'].sum()\ntop10 = product_rev.nlargest(10, 'Revenue')"
+      },
+      {
+        name: "4. Visualise",
+        title: "Draw charts with Matplotlib and Seaborn",
+        text: "Matplotlib gives the line, bar, pie, histogram and scatter charts. Seaborn gives the distribution plot, box plot, count plot, heatmaps and pair plot.",
+        code: "plt.plot(hourly.index, hourly.values, marker='o')\nplt.bar(monthly.index, monthly.values)\nplt.pie(top.values, labels=top.index, autopct='%1.1f%%')\nplt.scatter(prod['Price'], prod['Units'], c=prod['Revenue'])\nplt.colorbar()\n\nsns.boxplot(data=data, x='Price Each', y='Product')\nsns.heatmap(corr, annot=True, cmap='coolwarm')\nsns.pairplot(small)"
+      },
+      {
+        name: "5. Insights",
+        title: "Read the results",
+        text: "The charts show which products earn the most, which city sells the most and which hours of the day are busiest. These findings help plan better promotions.",
+        code: "# What we look for\n# - best selling product by revenue and by units\n# - city with the highest revenue\n# - busiest hours of the day\n# - months with the most sales"
+      }
+    ];
+
+    var current = 0;
+    var tabsBox = document.getElementById("tabs");
+    var prevBtn = document.getElementById("prev");
+    var nextBtn = document.getElementById("next");
+
+    steps.forEach(function (s, i) {
+      var b = document.createElement("button");
+      b.className = "tab";
+      b.textContent = s.name;
+      b.addEventListener("click", function () { showStep(i); });
+      tabsBox.appendChild(b);
+    });
+
+    function showStep(i) {
+      current = i;
+      var s = steps[i];
+      document.getElementById("step-title").textContent = s.title;
+      document.getElementById("step-text").textContent = s.text;
+      document.getElementById("step-code").textContent = s.code;
+
+      var all = tabsBox.querySelectorAll(".tab");
+      all.forEach(function (t, n) {
+        t.classList.toggle("active", n === i);
+      });
+      prevBtn.disabled = i === 0;
+      nextBtn.disabled = i === steps.length - 1;
+    }
+
+    prevBtn.addEventListener("click", function () { showStep(current - 1); });
+    nextBtn.addEventListener("click", function () { showStep(current + 1); });
+    showStep(0);
+
+    // ---------- top 5 products ----------
+    var data = {
+      revenue: [
+        ["Macbook Pro Laptop", 1280100],
+        ["iPhone", 793100],
+        ["ThinkPad Laptop", 666993],
+        ["Google Phone", 564600],
+        ["34in Ultrawide Monitor", 391770]
+      ],
+      units: [
+        ["AAA Batteries (4-pack)", 4950],
+        ["AA Batteries (4-pack)", 4647],
+        ["Lightning Charging Cable", 3803],
+        ["USB-C Charging Cable", 3723],
+        ["Wired Headphones", 3353]
+      ]
+    };
+
+    var barsBox = document.getElementById("bars");
+    var modeButtons = document.querySelectorAll("#findings .toggle .tab");
+
+    function showBars(mode) {
+      var rows = data[mode];
+      var max = rows[0][1];
+      barsBox.innerHTML = "";
+
+      rows.forEach(function (r) {
+        var row = document.createElement("div");
+        row.className = "bar-row";
+
+        var label = document.createElement("span");
+        label.className = "bar-label";
+        label.textContent = r[0];
+
+        var track = document.createElement("div");
+        track.className = "bar-track";
+        var fill = document.createElement("div");
+        fill.className = "bar-fill";
+        track.appendChild(fill);
+
+        var value = document.createElement("span");
+        value.className = "bar-value";
+        value.textContent = (mode === "revenue" ? "$" : "") + r[1].toLocaleString();
+
+        row.appendChild(label);
+        row.appendChild(track);
+        row.appendChild(value);
+        barsBox.appendChild(row);
+
+        // set width after adding to page so the bar grows
+        setTimeout(function () { fill.style.width = (r[1] / max * 100) + "%"; }, 20);
+      });
+
+      modeButtons.forEach(function (b) {
+        b.classList.toggle("active", b.dataset.mode === mode);
+      });
+    }
+
+    modeButtons.forEach(function (b) {
+      b.addEventListener("click", function () { showBars(b.dataset.mode); });
+    });
+    showBars("revenue");
+  </script>
+</body>
+</html>

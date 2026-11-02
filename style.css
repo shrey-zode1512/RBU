@@ -1,0 +1,108 @@
+* { box-sizing: border-box; }
+
+body {
+  margin: 0;
+  font-family: system-ui, -apple-system, "Segoe UI", Arial, sans-serif;
+  color: #1f2937;
+  background: #ffffff;
+  line-height: 1.6;
+}
+
+a { color: #2563eb; }
+a:focus-visible, button:focus-visible { outline: 3px solid #93c5fd; outline-offset: 2px; }
+
+.wrap { max-width: 900px; margin: 0 auto; padding: 0 20px; }
+
+/* header */
+header { border-bottom: 1px solid #e5e7eb; }
+header .wrap { display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 10px; padding-top: 14px; padding-bottom: 14px; }
+.logo { font-weight: 700; }
+nav a { margin-left: 16px; text-decoration: none; color: #374151; }
+nav a:hover { color: #2563eb; }
+
+/* hero */
+.hero { padding: 56px 0 44px; background: #f3f4f6; }
+.hero h1 { font-size: 2.2rem; line-height: 1.2; margin: 0 0 12px; }
+.hero p { max-width: 620px; margin: 0 0 24px; color: #4b5563; }
+
+.btn {
+  display: inline-block;
+  padding: 11px 22px;
+  background: #2563eb;
+  color: #ffffff;
+  text-decoration: none;
+  border-radius: 6px;
+  font-weight: 600;
+}
+.btn:hover { background: #1d4ed8; }
+.btn.light { background: #ffffff; color: #1f2937; border: 1px solid #d1d5db; margin-left: 10px; }
+.btn.light:hover { background: #f9fafb; }
+
+/* sections */
+section { padding: 40px 0; }
+section h2 { margin: 0 0 8px; font-size: 1.5rem; }
+.intro { margin: 0 0 20px; color: #4b5563; }
+
+/* dataset */
+.facts { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 12px; margin-bottom: 24px; }
+.fact { border: 1px solid #e5e7eb; border-radius: 6px; padding: 12px 14px; }
+.fact b { display: block; font-size: 1.4rem; }
+.fact span { color: #6b7280; font-size: 0.9rem; }
+
+table { width: 100%; border-collapse: collapse; }
+th, td { text-align: left; padding: 8px 10px; border-bottom: 1px solid #e5e7eb; }
+th { background: #f9fafb; }
+.table-scroll { overflow-x: auto; }
+
+/* workflow tabs */
+.tabs { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 16px; }
+.tab {
+  padding: 8px 16px;
+  border: 1px solid #d1d5db;
+  background: #ffffff;
+  border-radius: 6px;
+  cursor: pointer;
+  font: inherit;
+}
+.tab:hover { background: #f3f4f6; }
+.tab.active { background: #2563eb; border-color: #2563eb; color: #ffffff; }
+
+.panel { border: 1px solid #e5e7eb; border-radius: 6px; padding: 20px; }
+.panel h3 { margin: 0 0 8px; }
+.panel p { margin: 0 0 14px; }
+pre { margin: 0 0 16px; padding: 14px; background: #111827; color: #e5e7eb; border-radius: 6px; overflow-x: auto; font-size: 0.88rem; line-height: 1.5; }
+.step-nav { display: flex; justify-content: space-between; }
+.step-nav button { padding: 7px 14px; border: 1px solid #d1d5db; background: #ffffff; border-radius: 6px; cursor: pointer; font: inherit; }
+.step-nav button:disabled { opacity: 0.4; cursor: default; }
+
+/* findings bars */
+.toggle { display: flex; gap: 8px; margin-bottom: 16px; }
+.bar-row { display: grid; grid-template-columns: 170px 1fr 90px; align-items: center; gap: 10px; margin-bottom: 10px; }
+.bar-track { background: #e5e7eb; border-radius: 4px; height: 18px; }
+.bar-fill { height: 100%; width: 0; background: #2563eb; border-radius: 4px; transition: width 0.4s; }
+.bar-value { text-align: right; font-variant-numeric: tabular-nums; }
+.note { color: #6b7280; font-size: 0.9rem; margin-top: 12px; }
+
+/* team and stack */
+.cards { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 14px; }
+.card { border: 1px solid #e5e7eb; border-radius: 6px; padding: 16px; }
+.card h3 { margin: 0 0 6px; font-size: 1.05rem; }
+.card p { margin: 0; color: #4b5563; font-size: 0.95rem; }
+.tags { display: flex; flex-wrap: wrap; gap: 8px; padding: 0; list-style: none; margin: 0; }
+.tags li { padding: 5px 12px; background: #f3f4f6; border-radius: 999px; font-size: 0.9rem; }
+
+/* footer cta */
+.final { background: #f3f4f6; text-align: center; }
+.final p { margin: 0 0 18px; color: #4b5563; }
+footer { padding: 18px 0; text-align: center; color: #6b7280; font-size: 0.9rem; }
+
+@media (max-width: 600px) {
+  .hero h1 { font-size: 1.7rem; }
+  .bar-row { grid-template-columns: 1fr 70px; }
+  .bar-label { grid-column: 1 / -1; }
+  .btn.light { margin: 10px 0 0; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .bar-fill { transition: none; }
+}
